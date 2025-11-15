@@ -1,26 +1,151 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --primary-color: #2bd17e;
+  --error-color: #eb5757;
+  --bg-color: #093545;
+  --input-color: #224957;
+  --card-color: #092c39;
+  --font-family: "Montserrat", Arial, Helvetica, sans-serif;
+  --heading-h1-size: 64px;
+  --heading-h1-line-height: 80px;
+  --heading-h1-weight: 600;
+  --heading-h2-size: 48px;
+  --heading-h2-line-height: 56px;
+  --heading-h2-weight: 600;
+  --heading-h3-size: 32px;
+  --heading-h3-line-height: 40px;
+  --heading-h3-weight: 600;
+  --heading-h4-size: 24px;
+  --heading-h4-line-height: 32px;
+  --heading-h4-weight: 700;
+  --heading-h5-size: 20px;
+  --heading-h5-line-height: 24px;
+  --heading-h5-weight: 700;
+  --heading-h6-size: 16px;
+  --heading-h6-line-height: 24px;
+  --heading-h6-weight: 700;
+  --body-large-size: 20px;
+  --body-large-line-height: 32px;
+  --body-large-weight: 400;
+  --body-medium-size: 16px;
+  --body-medium-line-height: 24px;
+  --body-medium-weight: 400;
+  --body-small-size: 14px;
+  --body-small-line-height: 24px;
+  --body-small-weight: 400;
+  --body-xs-size: 12px;
+  --body-xs-line-height: 24px;
+  --body-xs-weight: 400;
+  --caption-size: 14px;
+  --caption-line-height: 16px;
+  --caption-weight: 400;
+  --text-color: #ffffff;
+  /* compatibility aliases used elsewhere in project */
+  --background-color: var(--bg-color);
+  --foreground: var(--text-color);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg-color);
+  color: var(--text-color);
+  font-family: var(--font-family);
+}
+
+h1 {
+  font-size: var(--heading-h1-size);
+  line-height: var(--heading-h1-line-height);
+  font-weight: var(--heading-h1-weight);
+  font-family: var(--font-family);
+}
+h2 {
+  font-size: var(--heading-h2-size);
+  line-height: var(--heading-h2-line-height);
+  font-weight: var(--heading-h2-weight);
+  font-family: var(--font-family);
+}
+h3 {
+  font-size: var(--heading-h3-size);
+  line-height: var(--heading-h3-line-height);
+  font-weight: var(--heading-h3-weight);
+  font-family: var(--font-family);
+}
+h4 {
+  font-size: var(--heading-h4-size);
+  line-height: var(--heading-h4-line-height);
+  font-weight: var(--heading-h4-weight);
+  font-family: var(--font-family);
+}
+h5 {
+  font-size: var(--heading-h5-size);
+  line-height: var(--heading-h5-line-height);
+  font-weight: var(--heading-h5-weight);
+  font-family: var(--font-family);
+}
+h6 {
+  font-size: var(--heading-h6-size);
+  line-height: var(--heading-h6-line-height);
+  font-weight: var(--heading-h6-weight);
+  font-family: var(--font-family);
+}
+
+.custom-checkbox {
+  position: absolute;
+  opacity: 0;
+  height: 0;
+  width: 0;
+  cursor: pointer;
+}
+
+.checkbox-container {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  cursor: pointer;
+  padding-left: 26px; /* space for box */
+  user-select: none;
+  font-family: var(--font-family);
+  font-size: var(--body-small-size);
+}
+
+.checkbox-box {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 18px;
+  height: 18px;
+  background-color: var(--input-color);
+  border-radius: 4px;
+  transition: background-color 0.2s ease;
+}
+
+.custom-checkbox:checked ~ .checkbox-box {
+  background-color: var(--primary-color);
+}
+
+.checkbox-box::after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.custom-checkbox:checked ~ .checkbox-box::after {
+  display: block;
+}
+
+.checkbox-box::after {
+  left: 6px;
+  top: 3px;
+  width: 6px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: white !important;
+  opacity: 1 !important;
 }
