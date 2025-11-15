@@ -1,9 +1,9 @@
-import { Login } from "@/components/ui/Login";
+import { NewMoviePage } from "./movie/new"
 
 export default function Home() {
-  return (
-    <div>
-      <Login />
-    </div>
-  );
+    return (
+        <div>
+            <NewMoviePage />
+        </div>
+    )
 }
