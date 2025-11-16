@@ -3,6 +3,7 @@
 import { Button } from "@/components/shared/Button"
 import { Input } from "@/components/shared/Input"
 import { ImageDropZone } from "@/components/ui/ImageDropZone"
+import { useApi } from "@/composables/useApi"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 
@@ -13,12 +14,15 @@ export default function NewMoviePage() {
     const [titleError, setTitleError] = useState<string>("")
     const [publishingYear, setPublishingYear] = useState<string>("")
     const [publishingYearError, setPublishingYearError] = useState<string>("")
+    const [isLoading, setIsLoading] = useState<boolean>(false)
     const router = useRouter()
+    const { addMovie } = useApi()
 
-    const handleSubmit = () => {
+    const handleSubmit = async () => {
         if (!title || !publishingYear || !selectedFile) {
-            if (!title) setTitleError("Email is required")
-            if (!publishingYear) setPublishingYearError("Password is required")
+            if (!title) setTitleError("Title is required")
+            if (!publishingYear)
+                setPublishingYearError("Publishing Year is required")
             if (!selectedFile) setImageError("Image is required")
             return
         }
@@ -26,8 +30,17 @@ export default function NewMoviePage() {
             return
         }
 
-        // Redirect to movies page after successful login
-        router.push("/movie")
+        setIsLoading(true)
+        try {
+            await addMovie(title, publishingYear, selectedFile)
+            // Redirect to movies page after successful submission
+            router.push("/movie")
+        } catch (error) {
+            console.error("Error adding movie:", error)
+            setImageError("Failed to add movie. Please try again.")
+        } finally {
+            setIsLoading(false)
+        }
     }
 
     return (
@@ -81,7 +94,7 @@ export default function NewMoviePage() {
                             <Button
                                 className="w-full mt-6"
                                 size="lg"
-                                type="submit"
+                                type="button"
                                 variant="outline"
                                 onClick={() => router.push("/movie")}
                             >
@@ -90,10 +103,11 @@ export default function NewMoviePage() {
                             <Button
                                 className="w-full mt-6"
                                 size="lg"
-                                type="submit"
+                                type="button"
                                 onClick={handleSubmit}
+                                disabled={isLoading}
                             >
-                                Submit
+                                {isLoading ? "Submitting..." : "Submit"}
                             </Button>
                         </div>
                     </div>

@@ -6,11 +6,15 @@ import { useApi } from "@/composables/useApi"
 import { useEffect, useState } from "react"
 import { EmptyState } from "../../components/ui/emptyState"
 
+export interface PosterData {
+    s3Url: string
+    fileName: string
+}
 export interface IMovies {
     id: number
     title: string
     publishingYear: string
-    poster: string
+    poster: PosterData
 }
 
 export default function MoviesPage() {

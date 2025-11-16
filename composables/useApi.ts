@@ -4,27 +4,35 @@ export const useApi = () => {
 
     const getMovies = async () => {
         const response = await fetch(`${apiBaseUrl}/movie`)
-        console.log("API Response:", response)
         if (!response.ok) {
             throw new Error("Failed to fetch movies")
         }
         return response.json()
     }
 
-    const uploadMovie = async (formData: FormData) => {
-        const response = await fetch(`${apiBaseUrl}/movie`, {
+    const addMovie = async (
+        title: string,
+        publishingYear: string,
+        file: File
+    ) => {
+        const formData = new FormData()
+        formData.append("poster", file)
+        formData.append("title", title)
+        formData.append("publishingYear", publishingYear)
+
+        const response = await fetch(`${apiBaseUrl}/movie/add`, {
             method: "POST",
             body: formData,
         })
-        console.log("Upload Response:", response)
+        console.log("Add Movie Response:", response)
         if (!response.ok) {
-            throw new Error("Failed to upload movie")
+            throw new Error("Failed to add movie")
         }
         return response.json()
     }
 
     const updateMovie = async (id: number, formData: FormData) => {
-        const response = await fetch(`${apiBaseUrl}/movie/${id}`, {
+        const response = await fetch(`${apiBaseUrl}/movie/update/${id}`, {
             method: "PUT",
             body: formData,
         })
@@ -47,7 +55,6 @@ export const useApi = () => {
             },
             body: JSON.stringify({ email, password, rememberMe }),
         })
-        console.log("Login Response:", response)
         if (!response.ok) {
             throw new Error("Failed to login")
         }
@@ -57,7 +64,7 @@ export const useApi = () => {
 
     return {
         getMovies,
-        uploadMovie,
+        addMovie,
         updateMovie,
         authLogin,
     }

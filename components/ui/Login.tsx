@@ -59,7 +59,7 @@ export const Login = () => {
         if (token) {
             router.push("/movie")
         }
-    }, [])
+    }, [getToken, router])
 
     return (
         <div className="mx-auto  max-w-md w-full p-8 space-y-8 bg-transparent">
