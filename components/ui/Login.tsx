@@ -1,7 +1,10 @@
 "use client"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Input } from "../shared/Input"
 import { Button } from "../shared/Button"
+import { useApi } from "@/composables/useApi"
+import { useStorage } from "@/composables/useStorage"
+import { useRouter } from "next/navigation"
 
 export const Login = () => {
     const [email, setEmail] = useState("")
@@ -9,11 +12,25 @@ export const Login = () => {
     const [password, setPassword] = useState("")
     const [passwordError, setPasswordError] = useState("")
     const [rememberMe, setRememberMe] = useState(false)
+    const router = useRouter()
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        console.log("Login attempt...")
-        console.log({ email, password, rememberMe })
+    const { authLogin } = useApi()
+    const { saveToken, getToken } = useStorage()
+
+    const handleSubmit = async () => {
+        if (!email || !password) {
+            if (!email) setEmailError("Email is required")
+            if (!password) setPasswordError("Password is required")
+            return
+        }
+        if (emailError || passwordError) {
+            return
+        }
+        const res = await authLogin(email, password, rememberMe)
+        console.log("Login successful:", res)
+        saveToken(res.token)
+        // Redirect to movies page after successful login
+        router.push("/movie")
     }
 
     const validateEmail = (e: React.FocusEvent<HTMLInputElement>) => {
@@ -37,14 +54,18 @@ export const Login = () => {
         setPasswordError("")
     }
 
+    useEffect(() => {
+        const token = getToken()
+        if (token) {
+            router.push("/movie")
+        }
+    }, [])
+
     return (
         <div className="mx-auto  max-w-md w-full p-8 space-y-8 bg-transparent">
             <h2 className="text-center">Sign in</h2>
 
-            <form
-                onSubmit={handleSubmit}
-                className="flex flex-col gap-4 w-full"
-            >
+            <div className="flex flex-col gap-4 w-full">
                 <Input
                     placeholder="Email"
                     type="email"
@@ -82,10 +103,15 @@ export const Login = () => {
                     <span>Remember me</span>
                 </label>
 
-                <Button className="w-full mt-6" size="lg" type="submit">
+                <Button
+                    className="w-full mt-6"
+                    size="lg"
+                    type="submit"
+                    onClick={handleSubmit}
+                >
                     Login
                 </Button>
-            </form>
+            </div>
         </div>
     )
 }

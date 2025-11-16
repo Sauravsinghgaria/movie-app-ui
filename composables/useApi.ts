@@ -35,9 +35,30 @@ export const useApi = () => {
         return response.json()
     }
 
+    const authLogin = async (
+        email: string,
+        password: string,
+        rememberMe: boolean
+    ) => {
+        const response = await fetch(`${apiBaseUrl}/auth/login`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email, password, rememberMe }),
+        })
+        console.log("Login Response:", response)
+        if (!response.ok) {
+            throw new Error("Failed to login")
+        }
+        // Save token logic can be added here if needed
+        return response.json()
+    }
+
     return {
         getMovies,
         uploadMovie,
         updateMovie,
+        authLogin,
     }
 }

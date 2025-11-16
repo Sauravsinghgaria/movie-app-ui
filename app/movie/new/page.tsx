@@ -3,40 +3,78 @@
 import { Button } from "@/components/shared/Button"
 import { Input } from "@/components/shared/Input"
 import { ImageDropZone } from "@/components/ui/ImageDropZone"
+import { useRouter } from "next/navigation"
 import { useState } from "react"
 
 export default function NewMoviePage() {
     const [selectedFile, setSelectedFile] = useState<File | null>(null)
-    
+    const [imageError, setImageError] = useState<string>("")
+    const [title, setTitle] = useState<string>("")
+    const [titleError, setTitleError] = useState<string>("")
+    const [publishingYear, setPublishingYear] = useState<string>("")
+    const [publishingYearError, setPublishingYearError] = useState<string>("")
+    const router = useRouter()
 
-    const handleSubmit = (e: React.FormEvent) => {
-        e.preventDefault()
-        // Handle form submission logic here
+    const handleSubmit = () => {
+        if (!title || !publishingYear || !selectedFile) {
+            if (!title) setTitleError("Email is required")
+            if (!publishingYear) setPublishingYearError("Password is required")
+            if (!selectedFile) setImageError("Image is required")
+            return
+        }
+        if (titleError || publishingYearError || imageError) {
+            return
+        }
 
+        // Redirect to movies page after successful login
+        router.push("/movie")
     }
 
     return (
         <div className="text-white">
             <h2 className="text-2xl font-bold mb-4">Create a new Movie</h2>
             <div className="flex w-full">
-                <div className="border-1 border-dashed border-white rounded-md mr-4 bg-white/10 justify-center flex items-center p-10">
+                <div className="mr-4">
                     <ImageDropZone
                         setSelectedFile={setSelectedFile}
                         selectedFile={selectedFile}
+                        error={imageError}
                     />
                 </div>
                 <div>
-                    <form className="space-y-4">
+                    <div className="space-y-4">
                         <div>
                             <Input
                                 type="text"
                                 placeholder="Movie Title"
                                 className="w-full p-2 rounded bg-[var(--input-bg)] text-white"
+                                value={title}
+                                error={titleError}
+                                onChange={(event) => {
+                                    setTitleError("")
+                                    setTitle(event.target.value)
+                                }}
+                                onBlur={() => {
+                                    if (!title)
+                                        setTitleError("Title is required")
+                                }}
                             />
                             <Input
                                 type="number"
                                 placeholder="Publishing Year"
                                 className="w-full p-2 rounded bg-[var(--input-bg)] text-white mt-4"
+                                value={publishingYear}
+                                error={publishingYearError}
+                                onChange={(event) => {
+                                    setPublishingYearError("")
+                                    setPublishingYear(event.target.value)
+                                }}
+                                onBlur={() => {
+                                    if (!publishingYear)
+                                        setPublishingYearError(
+                                            "Title is required"
+                                        )
+                                }}
                             />
                         </div>
                         <div className="flex md:flex-row gap-4 mt-6">
@@ -45,6 +83,7 @@ export default function NewMoviePage() {
                                 size="lg"
                                 type="submit"
                                 variant="outline"
+                                onClick={() => router.push("/movie")}
                             >
                                 Cancel
                             </Button>
@@ -52,11 +91,12 @@ export default function NewMoviePage() {
                                 className="w-full mt-6"
                                 size="lg"
                                 type="submit"
+                                onClick={handleSubmit}
                             >
                                 Submit
                             </Button>
                         </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>

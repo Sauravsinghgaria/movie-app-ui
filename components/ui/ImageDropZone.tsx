@@ -6,11 +6,13 @@ import { useCallback, useState, type DragEvent, type ChangeEvent } from "react"
 interface ImageDropZoneProps {
     setSelectedFile: (file: File | null) => void
     selectedFile: File | null
+    error?: string
 }
 
 export const ImageDropZone = ({
     setSelectedFile,
     selectedFile,
+    error,
 }: ImageDropZoneProps) => {
     const [isDragging, setIsDragging] = useState(false)
 
@@ -62,10 +64,12 @@ export const ImageDropZone = ({
         flex-shrink-0 w-full h-80 md:w-96 md:h-96 
         rounded-xl p-8 transition duration-200 relative
         flex flex-col items-center justify-center text-center
+        border-2
+        ${error ? "border-[var(--error-color)]" : "border-white"}
         ${
             isDragging
-                ? "border-4 border-solid border-white bg-white/5"
-                : "border-2 border-dashed border-white bg-white/10 hover:bg-white/5"
+                ? "border-solid bg-white/5"
+                : "border-dashed bg-white/10 hover:bg-white/5"
         }`}
             onDragEnter={handleDragEnter}
             onDragLeave={handleDragLeave}
@@ -99,6 +103,11 @@ export const ImageDropZone = ({
                     <p className="text-sm text-slate-400 mb-4">
                         or click to select file
                     </p>
+                    {!!error && (
+                        <span className="text-[var(--error-color)] text-xs">
+                            {error}
+                        </span>
+                    )}
                 </div>
             )}
         </div>

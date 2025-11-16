@@ -26,7 +26,7 @@ export const Input: React.FC<InputProps> = ({
                 {...props}
                 className={`
           bg-[var(--input-color)] text-white rounded-lg 
-          border-2 border-transparent outline-none 
+          border-2 outline-none 
           transition duration-200
           ${
               error
