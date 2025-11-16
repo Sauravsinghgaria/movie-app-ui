@@ -26,7 +26,7 @@ export const MovieCard: React.FC<MovieCardProps> = ({
     return (
         <div
             onClick={handleEditClick}
-            className="bg-[var(--card-color)] rounded-xl overflow-hidden shadow-md hover:scale-[1.02] transition cursor-pointer flex flex-col h-96"
+            className="bg-[var(--card-color)] rounded-xl overflow-hidden shadow-md hover:scale-[1.02] transition cursor-pointer flex flex-col"
         >
             <div className="relative w-full h-56 overflow-hidden">
                 <Image
@@ -37,13 +37,9 @@ export const MovieCard: React.FC<MovieCardProps> = ({
                     style={{ objectFit: "cover", objectPosition: "center" }}
                 />
             </div>
-            <div className="p-4 flex flex-col flex-grow justify-between">
-                <div>
-                    <h3 className="text-white text-sm font-semibold">
-                        {title}
-                    </h3>
-                    <p className="text-gray-300 text-xs">{year}</p>
-                </div>
+            <div className="p-4 flex flex-col justify-between">
+                <h3 className="text-white text-sm font-semibold">{title}</h3>
+                <p className="text-gray-300 text-xs">{year}</p>
             </div>
         </div>
     )

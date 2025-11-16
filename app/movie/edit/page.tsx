@@ -80,20 +80,89 @@ const EditMoviePageContent = () => {
 
     return (
         <div className="text-white  min-h-screen px-10 py-8">
+            <h2 className="text-3xl md:text-5xl font-semibold mb-8 md:mb-12 max-w-7xl mx-auto">
+                Edit
+            </h2>
             <div className="max-w-7xl mx-auto">
-                <div className="flex flex-col md:flex-row w-full gap-8 md:gap-16 md:justify-center">
-                    <div className="w-full md:w-auto md:flex-shrink-0">
-                        <h2 className="text-3xl md:text-5xl font-semibold mb-8 md:mb-12">
-                            Edit
-                        </h2>
+                {/* Mobile Layout */}
+                <div className="md:hidden space-y-8">
+                    <div className="space-y-6">
+                        <Input
+                            type="text"
+                            placeholder="Title"
+                            className="w-full p-3 rounded bg-[var(--input-bg)] text-white"
+                            value={title}
+                            error={titleError}
+                            onChange={(event) => {
+                                setTitleError("")
+                                setTitle(event.target.value)
+                            }}
+                            onBlur={() => {
+                                if (!title) setTitleError("Title is required")
+                            }}
+                        />
+                        <Input
+                            type="text"
+                            placeholder="Publishing year"
+                            className="w-full p-3 rounded bg-[var(--input-bg)] text-white"
+                            value={publishingYear}
+                            error={publishingYearError}
+                            onChange={(event) => {
+                                const value = event.target.value
+                                // Allow only numbers
+                                if (value === "" || /^\d+$/.test(value)) {
+                                    setPublishingYearError("")
+                                    setPublishingYear(value)
+                                }
+                            }}
+                            onBlur={() => {
+                                if (!publishingYear)
+                                    setPublishingYearError(
+                                        "Publishing Year is required"
+                                    )
+                            }}
+                        />
+                    </div>
+                    <div>
                         <ImageDropZone
                             setSelectedFile={setSelectedFile}
                             selectedFile={selectedFile}
                             error={imageError}
                         />
                     </div>
-                    <div className="w-full md:max-w-md">
-                        <div className="space-y-6 md:mt-[8rem]">
+                    <div className="flex flex-col sm:flex-row gap-4">
+                        <Button
+                            className="w-full sm:w-auto px-8"
+                            size="lg"
+                            type="button"
+                            variant="outline"
+                            onClick={() => router.push("/movie")}
+                        >
+                            Cancel
+                        </Button>
+                        <Button
+                            className="w-full sm:w-auto px-8"
+                            size="lg"
+                            type="button"
+                            onClick={handleSubmit}
+                            disabled={isLoading}
+                        >
+                            {isLoading ? "Submitting..." : "Submit"}
+                        </Button>
+                    </div>
+                </div>
+
+                {/* Desktop Layout */}
+                <div className="hidden md:flex w-full gap-16 justify-center">
+                    <div className="w-auto flex-shrink-0">
+                        <ImageDropZone
+                            setSelectedFile={setSelectedFile}
+                            selectedFile={selectedFile}
+                            error={imageError}
+                        />
+                    </div>
+                    <div className="w-full max-w-md">
+                        <div className="space-y-6">
                             <div className="space-y-6">
                                 <Input
                                     type="text"
@@ -113,7 +182,7 @@ const EditMoviePageContent = () => {
                                 <Input
                                     type="text"
                                     placeholder="Publishing year"
-                                    className="w-full md:w-56 p-3 rounded bg-[var(--input-bg)] text-white"
+                                    className="w-56 p-3 rounded bg-[var(--input-bg)] text-white"
                                     value={publishingYear}
                                     error={publishingYearError}
                                     onChange={(event) => {
@@ -135,9 +204,9 @@ const EditMoviePageContent = () => {
                                     }}
                                 />
                             </div>
-                            <div className="flex flex-col sm:flex-row gap-4 pt-6">
+                            <div className="flex gap-4 pt-6">
                                 <Button
-                                    className="w-full sm:w-auto px-8"
+                                    className="px-8"
                                     size="lg"
                                     type="button"
                                     variant="outline"
@@ -146,7 +215,7 @@ const EditMoviePageContent = () => {
                                     Cancel
                                 </Button>
                                 <Button
-                                    className="w-full sm:w-auto px-8"
+                                    className="px-8"
                                     size="lg"
                                     type="button"
                                     onClick={handleSubmit}
