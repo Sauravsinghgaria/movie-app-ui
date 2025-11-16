@@ -1,5 +1,5 @@
 import { useStorage } from "@/composables/useStorage"
-import { LogOut, Plus } from "lucide-react"
+import { CirclePlus, LogOut } from "lucide-react"
 import { useRouter } from "next/navigation"
 
 export const Navbar = ({ title }: { title: string }) => {
@@ -10,17 +10,17 @@ export const Navbar = ({ title }: { title: string }) => {
         router.push("/login")
     }
     return (
-        <div className="flex justify-between items-center mb-10">
+        <div className="flex items-center mb-10">
             <h2 className="text-white text-3xl font-semibold flex items-center gap-2">
                 {title}
             </h2>
 
-            <div className="flex items-center gap-6">
+            <div className="flex flex-grow items-center justify-between gap-6">
                 <button
                     onClick={() => router.push("/movie/new")}
                     className="hover:cursor-pointer rounded-full hover:text-[var(--primary-color)] p-2 text-white text-sm transition"
                 >
-                    <Plus className="inline-block" />
+                    <CirclePlus className="inline-block" />
                 </button>
                 <button
                     onClick={handleLogout}

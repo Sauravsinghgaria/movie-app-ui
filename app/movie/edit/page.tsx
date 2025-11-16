@@ -80,7 +80,7 @@ const EditMoviePageContent = () => {
 
     return (
         <div className="text-white  min-h-screen px-10 py-8">
-            <h2 className="text-3xl md:text-5xl font-semibold mb-8 md:mb-12 max-w-7xl mx-auto">
+            <h2 className="text-3xl md:text-5xl font-semibold mb-8 md:mb-12 max-w-4xl mx-auto">
                 Edit
             </h2>
             <div className="max-w-7xl mx-auto">
