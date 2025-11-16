@@ -3,12 +3,13 @@
 import { Button } from "@/components/shared/Button"
 import { Input } from "@/components/shared/Input"
 import { ImageDropZone } from "@/components/ui/ImageDropZone"
+import { ProtectedRoute } from "@/components/ui/ProtectedRoute"
 import { useApi } from "@/composables/useApi"
 import { useStorage } from "@/composables/useStorage"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 
-export default function NewMoviePage() {
+const NewMoviePageContent = () => {
     const [selectedFile, setSelectedFile] = useState<File | null>(null)
     const [imageError, setImageError] = useState<string>("")
     const [title, setTitle] = useState<string>("")
@@ -121,5 +122,13 @@ export default function NewMoviePage() {
                 </div>
             </div>
         </div>
+    )
+}
+
+export default function NewMoviePage() {
+    return (
+        <ProtectedRoute>
+            <NewMoviePageContent />
+        </ProtectedRoute>
     )
 }

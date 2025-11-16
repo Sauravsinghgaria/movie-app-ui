@@ -3,13 +3,14 @@
 import { Button } from "@/components/shared/Button"
 import { Input } from "@/components/shared/Input"
 import { ImageDropZone } from "@/components/ui/ImageDropZone"
+import { ProtectedRoute } from "@/components/ui/ProtectedRoute"
 import { useApi } from "@/composables/useApi"
 import { useStorage } from "@/composables/useStorage"
 import { useRouter, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
 import { IMovies } from "@/app/movie/page"
 
-export default function EditMoviePage() {
+const EditMoviePageContent = () => {
     const [selectedFile, setSelectedFile] = useState<File | null>(null)
     const [imageError, setImageError] = useState<string>("")
     const [title, setTitle] = useState<string>("")
@@ -151,5 +152,13 @@ export default function EditMoviePage() {
                 </div>
             </div>
         </div>
+    )
+}
+
+export default function EditMoviePage() {
+    return (
+        <ProtectedRoute>
+            <EditMoviePageContent />
+        </ProtectedRoute>
     )
 }

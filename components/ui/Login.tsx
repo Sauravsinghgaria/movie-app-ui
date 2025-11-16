@@ -17,22 +17,6 @@ export const Login = () => {
     const { authLogin } = useApi()
     const { saveToken, getToken } = useStorage()
 
-    const handleSubmit = async () => {
-        if (!email || !password) {
-            if (!email) setEmailError("Email is required")
-            if (!password) setPasswordError("Password is required")
-            return
-        }
-        if (emailError || passwordError) {
-            return
-        }
-        const res = await authLogin(email, password, rememberMe)
-        console.log("Login successful:", res)
-        saveToken(res.token)
-        // Redirect to movies page after successful login
-        router.push("/movie")
-    }
-
     const validateEmail = (e: React.FocusEvent<HTMLInputElement>) => {
         const value = e.target.value
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -54,12 +38,29 @@ export const Login = () => {
         setPasswordError("")
     }
 
+    const handleSubmit = async () => {
+        if (!email || !password) {
+            if (!email) setEmailError("Email is required")
+            if (!password) setPasswordError("Password is required")
+            return
+        }
+        if (emailError || passwordError) {
+            return
+        }
+        const res = await authLogin(email, password, rememberMe)
+        console.log("Login successful:", res)
+        saveToken(res.token)
+        // Redirect to movies page after successful login
+        router.push("/movie")
+    }
+
     useEffect(() => {
         const token = getToken()
         if (token) {
             router.push("/movie")
         }
-    }, [getToken, router])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     return (
         <div className="mx-auto  max-w-md w-full p-8 space-y-8 bg-transparent">
