@@ -4,7 +4,7 @@ import { MoviesGrid } from "@/components/ui/MoviesGrid"
 import { Navbar } from "@/components/ui/Navbar"
 import { useApi } from "@/composables/useApi"
 import { useEffect, useState } from "react"
-import { EmptyState } from "./components/emptyState"
+import { EmptyState } from "../../components/ui/emptyState"
 
 export interface IMovies {
     id: number

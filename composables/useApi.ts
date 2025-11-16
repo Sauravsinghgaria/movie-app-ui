@@ -11,7 +11,33 @@ export const useApi = () => {
         return response.json()
     }
 
+    const uploadMovie = async (formData: FormData) => {
+        const response = await fetch(`${apiBaseUrl}/movie`, {
+            method: "POST",
+            body: formData,
+        })
+        console.log("Upload Response:", response)
+        if (!response.ok) {
+            throw new Error("Failed to upload movie")
+        }
+        return response.json()
+    }
+
+    const updateMovie = async (id: number, formData: FormData) => {
+        const response = await fetch(`${apiBaseUrl}/movie/${id}`, {
+            method: "PUT",
+            body: formData,
+        })
+        console.log("Update Response:", response)
+        if (!response.ok) {
+            throw new Error("Failed to update movie")
+        }
+        return response.json()
+    }
+
     return {
         getMovies,
+        uploadMovie,
+        updateMovie,
     }
 }
