@@ -41,9 +41,7 @@ const EditMoviePageContent = () => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [searchParams])
 
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault()
-
+    const handleSubmit = async () => {
         if (!title || !publishingYear) {
             if (!title) setTitleError("Title is required")
             if (!publishingYear)
@@ -81,74 +79,84 @@ const EditMoviePageContent = () => {
     }
 
     return (
-        <div className="text-white">
-            <h2 className="text-2xl font-bold mb-4">Update Movie</h2>
-            <div className="flex w-full">
-                <div className="mr-4">
-                    <ImageDropZone
-                        selectedFile={selectedFile}
-                        setSelectedFile={setSelectedFile}
-                        error={imageError}
-                    />
-                </div>
-                <div>
-                    <form className="space-y-4" onSubmit={handleSubmit}>
-                        <div>
-                            <Input
-                                type="text"
-                                placeholder="Movie Title"
-                                className="w-full p-2 rounded bg-[var(--input-bg)] text-white"
-                                value={title}
-                                error={titleError}
-                                onChange={(event) => {
-                                    setTitleError("")
-                                    setTitle(event.target.value)
-                                }}
-                                onBlur={() => {
-                                    if (!title)
-                                        setTitleError("Title is required")
-                                }}
-                            />
-                            <Input
-                                type="number"
-                                placeholder="Publishing Year"
-                                className="w-full p-2 rounded bg-[var(--input-bg)] text-white mt-4"
-                                value={publishingYear}
-                                error={publishingYearError}
-                                onChange={(event) => {
-                                    setPublishingYearError("")
-                                    setPublishingYear(event.target.value)
-                                }}
-                                onBlur={() => {
-                                    if (!publishingYear)
-                                        setPublishingYearError(
-                                            "Publishing Year is required"
-                                        )
-                                }}
-                            />
+        <div className="text-white  min-h-screen px-10 py-8">
+            <div className="max-w-7xl mx-auto">
+                <div className="flex flex-col md:flex-row w-full gap-8 md:gap-16 md:justify-center">
+                    <div className="w-full md:w-auto md:flex-shrink-0">
+                        <h2 className="text-3xl md:text-5xl font-semibold mb-8 md:mb-12">
+                            Edit
+                        </h2>
+                        <ImageDropZone
+                            setSelectedFile={setSelectedFile}
+                            selectedFile={selectedFile}
+                            error={imageError}
+                        />
+                    </div>
+                    <div className="w-full md:max-w-md">
+                        <div className="space-y-6 md:mt-[8rem]">
+                            <div className="space-y-6">
+                                <Input
+                                    type="text"
+                                    placeholder="Title"
+                                    className="w-full p-3 rounded bg-[var(--input-bg)] text-white"
+                                    value={title}
+                                    error={titleError}
+                                    onChange={(event) => {
+                                        setTitleError("")
+                                        setTitle(event.target.value)
+                                    }}
+                                    onBlur={() => {
+                                        if (!title)
+                                            setTitleError("Title is required")
+                                    }}
+                                />
+                                <Input
+                                    type="text"
+                                    placeholder="Publishing year"
+                                    className="w-full md:w-56 p-3 rounded bg-[var(--input-bg)] text-white"
+                                    value={publishingYear}
+                                    error={publishingYearError}
+                                    onChange={(event) => {
+                                        const value = event.target.value
+                                        // Allow only numbers
+                                        if (
+                                            value === "" ||
+                                            /^\d+$/.test(value)
+                                        ) {
+                                            setPublishingYearError("")
+                                            setPublishingYear(value)
+                                        }
+                                    }}
+                                    onBlur={() => {
+                                        if (!publishingYear)
+                                            setPublishingYearError(
+                                                "Publishing Year is required"
+                                            )
+                                    }}
+                                />
+                            </div>
+                            <div className="flex flex-col sm:flex-row gap-4 pt-6">
+                                <Button
+                                    className="w-full sm:w-auto px-8"
+                                    size="lg"
+                                    type="button"
+                                    variant="outline"
+                                    onClick={() => router.push("/movie")}
+                                >
+                                    Cancel
+                                </Button>
+                                <Button
+                                    className="w-full sm:w-auto px-8"
+                                    size="lg"
+                                    type="button"
+                                    onClick={handleSubmit}
+                                    disabled={isLoading}
+                                >
+                                    {isLoading ? "Submitting..." : "Submit"}
+                                </Button>
+                            </div>
                         </div>
-                        <div className="flex md:flex-row gap-4 mt-6">
-                            <Button
-                                className="w-full mt-6"
-                                size="lg"
-                                type="button"
-                                variant="outline"
-                                onClick={() => {
-                                    router.push("/movie")
-                                }}
-                            >
-                                Cancel
-                            </Button>
-                            <Button
-                                className="w-full mt-6"
-                                size="lg"
-                                type="submit"
-                                disabled={isLoading}
-                            >
-                                {isLoading ? "Updating..." : "Submit"}
-                            </Button>
-                        </div>
-                    </form>
+                    </div>
                 </div>
             </div>
         </div>
