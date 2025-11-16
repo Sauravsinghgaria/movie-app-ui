@@ -1,7 +1,8 @@
 import { MovieCard } from "./MovieCard";
 import { Pagination } from "../ui/Pagination";
+import { IMovies } from "@/app/movie/page";
 
-export const MoviesGrid = ({ movies }: { movies: any[] }) => {
+export const MoviesGrid = ({ movies }: { movies: IMovies[] }) => {
   return (
     <div>
       <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -9,8 +10,8 @@ export const MoviesGrid = ({ movies }: { movies: any[] }) => {
           <MovieCard
             key={m.id}
             title={m.title}
-            year={m.year}
-            image={m.image}
+            year={parseInt(m.publishingYear)}
+            image={m.poster}
           />
         ))}
       </div>

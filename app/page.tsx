@@ -1,4 +1,4 @@
-import { NewMoviePage } from "./movie/new"
+import { NewMoviePage } from "./movie/edit/page"
 
 export default function Home() {
     return (

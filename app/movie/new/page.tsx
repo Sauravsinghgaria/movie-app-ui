@@ -1,7 +1,9 @@
+"use client"
+
 import { Button } from "@/components/shared/Button"
 import { Input } from "@/components/shared/Input"
 
-export const NewMoviePage = () => {
+export default function NewMoviePage() {
     return (
         <div className="text-white">
             <h2 className="text-2xl font-bold mb-4">Create a new Movie</h2>
