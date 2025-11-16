@@ -4,6 +4,7 @@ import { Button } from "@/components/shared/Button"
 import { Input } from "@/components/shared/Input"
 import { ImageDropZone } from "@/components/ui/ImageDropZone"
 import { useApi } from "@/composables/useApi"
+import { useStorage } from "@/composables/useStorage"
 import { useRouter } from "next/navigation"
 import { useState } from "react"
 
@@ -16,7 +17,8 @@ export default function NewMoviePage() {
     const [publishingYearError, setPublishingYearError] = useState<string>("")
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const router = useRouter()
-    const { addMovie } = useApi()
+    const { addMovie, getMovies } = useApi()
+    const { saveMovies } = useStorage()
 
     const handleSubmit = async () => {
         if (!title || !publishingYear || !selectedFile) {
@@ -33,6 +35,11 @@ export default function NewMoviePage() {
         setIsLoading(true)
         try {
             await addMovie(title, publishingYear, selectedFile)
+
+            // Fetch all movies and save to localStorage
+            const allMovies = await getMovies()
+            saveMovies(allMovies)
+
             // Redirect to movies page after successful submission
             router.push("/movie")
         } catch (error) {
