@@ -47,9 +47,14 @@ export const Login = () => {
         if (emailError || passwordError) {
             return
         }
-        const res = await authLogin(email, password, rememberMe)
-        console.log("Login successful:", res)
-        saveToken(res.token)
+        try {
+            const res = await authLogin(email, password, rememberMe)
+            saveToken(res.token)
+        } catch (error) {
+            console.error("Login failed:", error)
+            setPasswordError("Login failed. Invalid credentials.")
+            return
+        }
         // Redirect to movies page after successful login
         router.push("/movie")
     }
@@ -105,7 +110,7 @@ export const Login = () => {
                 </label>
 
                 <Button
-                    className="w-full mt-6"
+                    className="w-full mt-6 hover:cursor-pointer"
                     size="lg"
                     type="submit"
                     onClick={handleSubmit}
